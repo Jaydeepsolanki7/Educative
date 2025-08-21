@@ -3,7 +3,7 @@ source "https://rubygems.org"
 gem "bootsnap", require: false
 gem "cssbundling-rails"
 gem "devise", "~> 4.9"
-gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 1.14"
 gem "jbuilder"
 gem "jsbundling-rails"
 gem "puma", ">= 5.0"
