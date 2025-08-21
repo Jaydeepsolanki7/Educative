@@ -1,0 +1,2 @@
+class CheckCatalogProduct < CatalogProductSubscription
+end

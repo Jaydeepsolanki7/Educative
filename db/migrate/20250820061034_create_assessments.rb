@@ -1,0 +1,12 @@
+class CreateAssessments < ActiveRecord::Migration[7.2]
+  def change
+    create_table :assessments do |t|
+      t.string :title
+      t.text :description
+      t.integer :duration
+      t.references :product, null: false, foreign_key: true
+
+      t.timestamps
+    end
+  end
+end

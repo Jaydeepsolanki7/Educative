@@ -1,0 +1,2 @@
+class DatastructurealgorithmCatalogProductSubscription < CatalogProductSubscription
+end

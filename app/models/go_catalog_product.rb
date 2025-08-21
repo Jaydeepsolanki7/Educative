@@ -1,0 +1,2 @@
+class GoCatalogProduct < CatalogProductSubscription
+end

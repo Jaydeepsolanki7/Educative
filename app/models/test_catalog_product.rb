@@ -1,0 +1,2 @@
+class TestCatalogProduct < CatalogProductSubscription
+end

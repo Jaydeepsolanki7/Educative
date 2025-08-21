@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  description: MyText
+  slug: MyString
+  cost: 1.5
+  catagory: MyString
+  stripe_id: MyString
+
+two:
+  type: 
+  description: MyText
+  slug: MyString
+  cost: 1.5
+  catagory: MyString
+  stripe_id: MyString

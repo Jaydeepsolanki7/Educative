@@ -1,0 +1,45 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+  <!-- Welcome heading -->
+  <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-indigo-700 mb-3 sm:mb-4">
+    Welcome, <span class="text-indigo-500"><%= current_user&.email %></span> 👋
+  </h1>
+
+  <!-- Catalog heading -->
+  <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-6 sm:mb-8 border-b-2 border-gray-200 pb-1 sm:pb-2">
+    Explore Our Catalog
+  </h2>
+
+  <!-- Product grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+
+    <!-- Add Product Card -->
+    <div class="bg-white rounded-2xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center p-6 hover:border-indigo-400 transition-colors">
+      <%= link_to new_product_path, class: "flex flex-col items-center justify-center text-center space-y-3" do %>
+        <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-100 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 sm:h-8 sm:w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+        </div>
+        <span class="text-base sm:text-lg font-semibold text-indigo-700">Add New Product</span>
+      <% end %>
+    </div>
+
+    <!-- Product Cards -->
+    <% @products.each do |product| %>
+      <div class="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow p-5 sm:p-6 flex flex-col justify-between">
+        <div>
+          <% if product.image.attached? %>
+            <%= image_tag product.image, class: "w-full h-32 sm:h-40 object-cover rounded-lg mb-3 sm:mb-4" %>
+          <% end %>
+          <h2 class="text-lg sm:text-xl md:text-2xl font-semibold text-indigo-700 mb-2 sm:mb-3"><%= product.name %></h2>
+          <p class="text-gray-600 mb-3 sm:mb-4 text-sm sm:text-base"><%= truncate(product.description, length: 120) %></p>
+        </div>
+        <div class="mt-3 sm:mt-4 flex items-center justify-between">
+          <span class="text-base sm:text-lg font-bold text-gray-900">$<%= number_with_precision(product.cost, precision: 2) %></span>
+          <%= link_to "View Details", product_path(product), class: "inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-medium px-3 sm:px-4 py-2 rounded-lg transition-colors" %>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+</div>
