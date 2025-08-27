@@ -1,2 +1,0 @@
-class GoCatalogProduct < CatalogProductSubscription
-end

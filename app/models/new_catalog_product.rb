@@ -1,2 +1,0 @@
-class NewCatalogProduct < CatalogProductSubscription
-end

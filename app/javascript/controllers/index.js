@@ -12,3 +12,6 @@ application.register("mobile-menu", MobileMenuController)
 
 import TabsController from "./tabs_controller"
 application.register("tabs", TabsController)
+
+import SearchController from "./search_controller"
+application.register("search", SearchController)

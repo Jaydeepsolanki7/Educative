@@ -1,2 +1,0 @@
-class CheckCatalogProduct < CatalogProductSubscription
-end
