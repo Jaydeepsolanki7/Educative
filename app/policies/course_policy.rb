@@ -1,6 +1,6 @@
 class CoursePolicy < ApplicationPolicy
   def create?
-    return false if user.present?
+    return false unless user.present?
 
     if record.product_id.present?
       product = Product.find(record.product_id)
