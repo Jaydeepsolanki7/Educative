@@ -1,2 +1,0 @@
-class PythonCatalogProduct < CatalogProductSubscription
-end

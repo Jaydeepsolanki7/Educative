@@ -1,4 +1,4 @@
-<!-- Force vertical stacking -->
+<!-- app/views/products/show.html.erb -->
 <div class="flex flex-col w-full">
 
   <!-- Row 1: Hero Section -->
@@ -43,11 +43,15 @@
       <!-- Heading + Search -->
       <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <h2 class="text-2xl font-bold text-gray-900">Explore Everything <%= @product.name %></h2>
-        <div class="flex rounded-md shadow-sm w-full md:w-auto">
-          <input type="text" class="py-2 px-4 block w-full rounded-l-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="Search courses...">
-          <button class="inline-flex items-center px-4 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-700 text-sm font-medium">
-            Search
-          </button>
+        
+        <!-- Search box -->
+        <div data-controller="search" data-search-product-id-value="<%= @product.id %>">
+          <input type="text"
+                data-search-target="input"
+                data-action="input->search#search"
+                placeholder="Search courses..."
+                class="py-2 px-4 block w-full rounded-md border border-gray-300 
+                        focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" />
         </div>
       </div>
 
@@ -71,49 +75,9 @@
         <!-- Content sections -->
         <!-- Courses Tab -->
         <div data-tabs-target="content" data-tabs-name="courses" class="block">
-          <div class="grid gap-6 mt-6">
-            <% @product.courses.each do |course| %>
-              <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition">
-                <div class="p-6 flex flex-col lg:flex-row gap-6">
-                  
-                  <!-- Course Image -->
-                  <%= link_to product_path(@product), class: "block" do %>
-                    <div class="flex-shrink-0">
-                      <% if course.image.attached? %>
-                        <%= image_tag course.image, class: "w-24 h-24 object-cover rounded-lg" %>
-                      <% else %>
-                        <div class="bg-gray-200 border-2 border-dashed rounded-lg w-24 h-24 flex items-center justify-center text-gray-500 text-xs text-center p-2">
-                          Course Image
-                        </div>
-                      <% end %>
-                    </div>
-                  <% end %>
-
-                  <!-- Course Details -->
-                  <div class="flex-grow">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2"><%= course.title %></h3>
-                    <p class="text-gray-600 mb-4 text-sm"><%= truncate(course.description, length: 120) %></p>
-                    
-                    <div class="flex flex-wrap items-center gap-3 text-sm">
-                      <span class="inline-flex items-center px-3 py-1 rounded-full bg-indigo-50 text-indigo-700">
-                        85 hrs
-                      </span>
-                      <span class="inline-flex items-center px-3 py-1 rounded-full bg-indigo-50 text-indigo-700">
-                        Difficulty: <%= course.difficulty %>
-                      </span>
-                      <span class="inline-flex items-center px-3 py-1 rounded-full bg-green-50 text-green-700">
-                        414 Challenges
-                      </span>
-                      <span class="inline-flex items-center px-3 py-1 rounded-full bg-purple-50 text-purple-700">
-                        415 Quizzes
-                      </span>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            <% end %>
-          </div>
+        <turbo-frame id="courses_list">
+          <%= render partial: "courses/list", locals: { courses: @courses || @product.courses, product: @product } %>
+        </turbo-frame>
         </div>
 
         <!-- Paths Tab -->
@@ -122,44 +86,41 @@
         </div>
 
         <!-- Assessments Tab -->
-        
         <div data-tabs-target="content" data-tabs-name="assessments" class="hidden">
-        <div class="grid gap-6 mt-6">
-          <% @product.assessments.each do |assessment| %>
-            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition">
-              <div class="p-6 flex flex-col lg:flex-row gap-6">
-                
-                <!-- Assessment Image -->
-                <div class="flex-shrink-0">
-                  <% if assessment.image.attached? %>
-                    <%= image_tag assessment.image, class: "w-24 h-24 object-cover rounded-lg" %>
-                  <% else %>
-                    <div class="bg-gray-200 border-2 border-dashed rounded-lg w-24 h-24 flex items-center justify-center text-gray-500 text-xs text-center p-2">
-                      Assessment Image
-                    </div>
-                  <% end %>
-                </div>
-      
-                <!-- Assessment Details -->
-                <div class="flex-grow">
-                  <h3 class="text-xl font-bold text-gray-900 mb-2"><%= assessment.title %></h3>
-                  <p class="text-gray-600 text-sm mb-4"><%= truncate(assessment.description, length: 120) %></p>
+          <div class="grid gap-6 mt-6">
+            <% @product.assessments.each do |assessment| %>
+              <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition">
+                <div class="p-6 flex flex-col lg:flex-row gap-6">
                   
-                  <!-- Example badges (optional, like courses) -->
-                  <div class="flex flex-wrap items-center gap-3 text-sm">
-                    <span class="inline-flex items-center px-3 py-1 rounded-full bg-green-50 text-green-700">
-                      <%= "#{assessment.duration} hrs" || "30 mins" %>
-                    </span>
+                  <!-- Assessment Image -->
+                  <div class="flex-shrink-0">
+                    <% if assessment.image.attached? %>
+                      <%= image_tag assessment.image, class: "w-24 h-24 object-cover rounded-lg" %>
+                    <% else %>
+                      <div class="bg-gray-200 border-2 border-dashed rounded-lg w-24 h-24 flex items-center justify-center text-gray-500 text-xs text-center p-2">
+                        Assessment Image
+                      </div>
+                    <% end %>
                   </div>
+        
+                  <!-- Assessment Details -->
+                  <div class="flex-grow">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2"><%= assessment.title %></h3>
+                    <p class="text-gray-600 text-sm mb-4"><%= truncate(assessment.description, length: 120) %></p>
+                    
+                    <div class="flex flex-wrap items-center gap-3 text-sm">
+                      <span class="inline-flex items-center px-3 py-1 rounded-full bg-green-50 text-green-700">
+                        <%= "#{assessment.duration} hrs" || "30 mins" %>
+                      </span>
+                    </div>
+                  </div>
+        
                 </div>
-      
               </div>
-            </div>
-          <% end %>
+            <% end %>
+          </div>
         </div>
-      </div>
       
-
         <!-- Projects Tab -->
         <div data-tabs-target="content" data-tabs-name="projects" class="hidden">
           <p class="text-gray-600 mt-6">No projects yet.</p>

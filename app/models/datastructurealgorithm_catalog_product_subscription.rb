@@ -1,2 +1,0 @@
-class DatastructurealgorithmCatalogProductSubscription < CatalogProductSubscription
-end

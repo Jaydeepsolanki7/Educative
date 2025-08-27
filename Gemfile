@@ -3,6 +3,8 @@ source "https://rubygems.org"
 gem "bootsnap", require: false
 gem "cssbundling-rails"
 gem "devise", "~> 4.9"
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'
 gem "image_processing", "~> 1.2"
 gem "jbuilder"
 gem "jsbundling-rails"

@@ -1,2 +1,0 @@
-class RubyonrailsCatalogProduct < CatalogProductSubscription
-end

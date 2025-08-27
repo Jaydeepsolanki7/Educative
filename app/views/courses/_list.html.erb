@@ -1,0 +1,35 @@
+<div class="grid gap-6 mt-6">
+  <% if courses.any? %>
+    <% courses.each do |course| %>
+      <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition">
+        <div class="p-6 flex flex-col lg:flex-row gap-6">
+
+          <!-- Course Image -->
+          <div class="flex-shrink-0">
+            <% if course.image.attached? %>
+              <%= image_tag course.image, class: "w-24 h-24 object-cover rounded-lg" %>
+            <% else %>
+              <div class="bg-gray-200 border-2 border-dashed rounded-lg w-24 h-24 flex items-center justify-center text-gray-500 text-xs text-center p-2">
+                Course Image
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Course Details -->
+          <div class="flex-grow">
+            <h3 class="text-xl font-bold text-gray-900 mb-2"><%= course.title %></h3>
+            <p class="text-gray-600 mb-4 text-sm"><%= truncate(course.description, length: 120) %></p>
+            <div class="flex flex-wrap items-center gap-3 text-sm">
+              <span class="inline-flex items-center px-3 py-1 rounded-full bg-indigo-50 text-indigo-700">
+                Difficulty: <%= course.difficulty %>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="text-gray-600 mt-6">No courses found.</p>
+  <% end %>
+</div>

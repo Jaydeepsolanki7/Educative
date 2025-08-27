@@ -1,2 +1,0 @@
-class JavaAdvanceCatalogProductSubscription < CatalogProductSubscription
-end
