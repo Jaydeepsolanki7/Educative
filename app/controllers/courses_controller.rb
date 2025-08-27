@@ -1,11 +1,13 @@
 class CoursesController < ApplicationController
   def new
     @course = Course.new(product_id: params[:product_id])
+    authorize @course
     @product = Product.find(params[:product_id]) if params[:product_id].present?
   end
 
   def create
     @course = Course.new(course_params)
+    authorize @course
 
     if @course.save
       @product = @course.product

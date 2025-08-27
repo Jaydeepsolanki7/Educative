@@ -18,7 +18,7 @@
         <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
           <%= link_to "Buy Now", new_user_session_path, 
               class: "inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium text-base transition shadow-md hover:shadow-lg" %>
-          <% if user_signed_in? %>
+          <% if user_signed_in? &&  @product.product_creator == current_user %>
             <%= link_to "Edit Product", edit_product_path(@product),
                 class: "inline-block bg-white hover:bg-gray-50 text-gray-800 border border-gray-300 px-4 py-3 rounded-lg font-medium text-sm transition" %>
           <% end %>
@@ -78,12 +78,14 @@
 
           <!-- Dynamic Add Button (Turbo Frame) -->
           <div>
+          <% if user_signed_in? && @product.product_creator == current_user %>
             <turbo-frame id="add_item_frame" data-tabs-target="addButtonFrame">
               <%= link_to "Add Course",
                     new_course_path(product_id: @product.id),
                     class: "bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-md",
                     data: { turbo_frame: "add_item_frame" } %>
             </turbo-frame>
+            <% end %>
           </div>
         </nav>
 

@@ -1,11 +1,13 @@
 class AssessmentsController < ApplicationController
   def new
     @assessment = Assessment.new(product_id: params[:product_id])
+    authorize @assessment
     @product = Product.find(params[:product_id]) if params[:product_id].present?
   end
 
   def create
     @assessment = Assessment.new(assessment_params)
+    authorize @assessment
 
     if @assessment.save
       @product = @assessment.product
