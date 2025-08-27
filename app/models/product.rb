@@ -2,14 +2,14 @@ class Product < ApplicationRecord
   has_one_attached :image
   has_many :courses, dependent: :destroy
   has_many :assessments, dependent: :destroy
-  belongs_to :product_creator, class_name: 'User'
+  belongs_to :product_creator, class_name: "User"
 
   after_create :create_catalog_entry_and_class
 
   private
 
   def create_catalog_entry_and_class
-    sanitized_name = name.gsub(/[^0-9a-z ]/i, '').strip
+    sanitized_name = name.gsub(/[^0-9a-z ]/i, "").strip
     sanitized_name = "Product#{sanitized_name}" if sanitized_name =~ /^\d/
     class_name = "#{sanitized_name.delete(' ')}CatalogProductSubscription"
 

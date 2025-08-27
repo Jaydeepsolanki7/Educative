@@ -105,6 +105,7 @@
         <!-- Assessments Tab -->
         <div data-tabs-target="content" data-tabs-name="assessments" class="hidden">
           <turbo-frame id="assessments_list">
+          <%= render partial: "assessments/list", locals: { assessments: @assessments || @product.assessments, product: @product } %>
           </turbo-frame>
         </div>
       
