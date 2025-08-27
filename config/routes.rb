@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       get :search
     end
   end
-
+  resources :assessments
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end

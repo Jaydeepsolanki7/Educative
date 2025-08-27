@@ -1,5 +1,7 @@
 <!-- app/views/products/show.html.erb -->
-<div class="flex flex-col w-full">
+<div class="flex flex-col w-full"
+     data-controller="tabs"
+     data-tabs-product-id-value="<%= @product.id %>">
 
   <!-- Row 1: Hero Section -->
   <section class="w-full bg-gradient-to-br from-indigo-50 to-white py-16">
@@ -16,7 +18,7 @@
         <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
           <%= link_to "Buy Now", new_user_session_path, 
               class: "inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium text-base transition shadow-md hover:shadow-lg" %>
-          <% if user_signed_in? %>
+          <% if user_signed_in? &&  @product.product_creator == current_user %>
             <%= link_to "Edit Product", edit_product_path(@product),
                 class: "inline-block bg-white hover:bg-gray-50 text-gray-800 border border-gray-300 px-4 py-3 rounded-lg font-medium text-sm transition" %>
           <% end %>
@@ -56,74 +58,64 @@
       </div>
 
       <!-- Tabs -->
-      <div data-controller="tabs">
-        <nav class="border-b border-gray-200 flex space-x-8">
-          <button data-action="tabs#show" data-tabs-target="tab" data-tabs-name="courses" class="active-tab">
-            Courses (<%= @product.courses.count %>)
-          </button>
-          <button data-action="tabs#show" data-tabs-target="tab" data-tabs-name="paths">
-            Paths (0)
-          </button>
-          <button data-action="tabs#show" data-tabs-target="tab" data-tabs-name="assessments">
-            Assessments (<%= @product.assessments.count %>)
-          </button>
-          <button data-action="tabs#show" data-tabs-target="tab" data-tabs-name="projects">
-            Projects (0)
-          </button>
+      <div>
+        <nav class="border-b border-gray-200 flex justify-between items-center">
+          <!-- Tab buttons -->
+          <div class="flex space-x-8">
+            <button data-action="tabs#show" data-tabs-target="tab" data-tabs-name="courses" class="active-tab">
+              Courses (<%= @product.courses.count %>)
+            </button>
+            <button data-action="tabs#show" data-tabs-target="tab" data-tabs-name="paths">
+              Paths (0)
+            </button>
+            <button data-action="tabs#show" data-tabs-target="tab" data-tabs-name="assessments">
+              Assessments (<%= @product.assessments.count %>)
+            </button>
+            <button data-action="tabs#show" data-tabs-target="tab" data-tabs-name="projects">
+              Projects (0)
+            </button>
+          </div>
+
+          <!-- Dynamic Add Button (Turbo Frame) -->
+          <div>
+          <% if user_signed_in? && @product.product_creator == current_user %>
+            <turbo-frame id="add_item_frame" data-tabs-target="addButtonFrame">
+              <%= link_to "Add Course",
+                    new_course_path(product_id: @product.id),
+                    class: "bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-md",
+                    data: { turbo_frame: "add_item_frame" } %>
+            </turbo-frame>
+            <% end %>
+          </div>
         </nav>
 
         <!-- Content sections -->
         <!-- Courses Tab -->
         <div data-tabs-target="content" data-tabs-name="courses" class="block">
-        <turbo-frame id="courses_list">
-          <%= render partial: "courses/list", locals: { courses: @courses || @product.courses, product: @product } %>
-        </turbo-frame>
+          <turbo-frame id="courses_list">
+            <%= render partial: "courses/list", locals: { courses: @courses || @product.courses, product: @product } %>
+          </turbo-frame>
         </div>
 
         <!-- Paths Tab -->
         <div data-tabs-target="content" data-tabs-name="paths" class="hidden">
-          <p class="text-gray-600 mt-6">No paths yet.</p>
+          <turbo-frame id="paths_list">
+            <p class="text-gray-600 mt-6">No paths yet.</p>
+          </turbo-frame>
         </div>
 
         <!-- Assessments Tab -->
         <div data-tabs-target="content" data-tabs-name="assessments" class="hidden">
-          <div class="grid gap-6 mt-6">
-            <% @product.assessments.each do |assessment| %>
-              <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition">
-                <div class="p-6 flex flex-col lg:flex-row gap-6">
-                  
-                  <!-- Assessment Image -->
-                  <div class="flex-shrink-0">
-                    <% if assessment.image.attached? %>
-                      <%= image_tag assessment.image, class: "w-24 h-24 object-cover rounded-lg" %>
-                    <% else %>
-                      <div class="bg-gray-200 border-2 border-dashed rounded-lg w-24 h-24 flex items-center justify-center text-gray-500 text-xs text-center p-2">
-                        Assessment Image
-                      </div>
-                    <% end %>
-                  </div>
-        
-                  <!-- Assessment Details -->
-                  <div class="flex-grow">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2"><%= assessment.title %></h3>
-                    <p class="text-gray-600 text-sm mb-4"><%= truncate(assessment.description, length: 120) %></p>
-                    
-                    <div class="flex flex-wrap items-center gap-3 text-sm">
-                      <span class="inline-flex items-center px-3 py-1 rounded-full bg-green-50 text-green-700">
-                        <%= "#{assessment.duration} hrs" || "30 mins" %>
-                      </span>
-                    </div>
-                  </div>
-        
-                </div>
-              </div>
-            <% end %>
-          </div>
+          <turbo-frame id="assessments_list">
+          <%= render partial: "assessments/list", locals: { assessments: @assessments || @product.assessments, product: @product } %>
+          </turbo-frame>
         </div>
       
         <!-- Projects Tab -->
         <div data-tabs-target="content" data-tabs-name="projects" class="hidden">
-          <p class="text-gray-600 mt-6">No projects yet.</p>
+          <turbo-frame id="projects_list">
+            <p class="text-gray-600 mt-6">No projects yet.</p>
+          </turbo-frame>
         </div>
       </div>
 
