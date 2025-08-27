@@ -5,15 +5,23 @@ export default class extends Controller {
   static targets = ["input"]
   static values = { productId: Number }
 
-  search() {
-    const query = this.inputTarget.value
-    const url = `/courses/search?product_id=${this.productIdValue}&q=${encodeURIComponent(query)}`
+  connect() {
+    this.timeout = null
+  }
 
-    // Load results into the turbo-frame
-    fetch(url, { headers: { Accept: "text/vnd.turbo-stream.html" } })
-      .then(response => response.text())
-      .then(html => {
-        document.getElementById("courses_list").innerHTML = html
-      },  300)
+  search() {
+    clearTimeout(this.timeout)
+
+    this.timeout = setTimeout(() => {
+      const query = this.inputTarget.value
+      const url = `/courses/search?product_id=${this.productIdValue}&q=${encodeURIComponent(query)}`
+
+      fetch(url, { headers: { Accept: "text/vnd.turbo-stream.html" } })
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById("courses_list").innerHTML = html
+        })
+    }, 500)
   }
 }
+

@@ -1,4 +1,21 @@
 class CoursesController < ApplicationController
+  def new
+    @course = Course.new(product_id: params[:product_id])
+    @product = Product.find(params[:product_id]) if params[:product_id].present?
+  end
+
+  def create
+    @course = Course.new(course_params)
+
+    if @course.save
+      @product = @course.product
+      flash.now[:notice] = "Course created successfully."
+      render "products/show"
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
   def search
     @product = Product.find(params[:product_id])
 
@@ -31,5 +48,12 @@ class CoursesController < ApplicationController
                locals: { courses: @courses, product: @product }
       end
     end
+  end
+
+
+  private
+
+  def course_params
+    params.require(:course).permit(:product_id, :title, :description, :difficulty, :image)
   end
 end
