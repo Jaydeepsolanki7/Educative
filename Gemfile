@@ -3,8 +3,8 @@ source "https://rubygems.org"
 gem "bootsnap", require: false
 gem "cssbundling-rails"
 gem "devise", "~> 4.9"
-gem 'elasticsearch-model'
-gem 'elasticsearch-rails'
+gem "elasticsearch-model"
+gem "elasticsearch-rails"
 gem "image_processing", "~> 1.2"
 gem "jbuilder"
 gem "jsbundling-rails"
@@ -14,6 +14,7 @@ gem "rails", "~> 7.2.2", ">= 7.2.2.1"
 gem "sprockets-rails"
 gem "sqlite3", ">= 1.4"
 gem "stimulus-rails"
+gem "stripe"
 gem "tailwindcss-rails", "~> 4.3"
 gem "turbo-rails"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
