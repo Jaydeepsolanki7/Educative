@@ -3,6 +3,7 @@ source "https://rubygems.org"
 gem "bootsnap", require: false
 gem "cssbundling-rails"
 gem "devise", "~> 4.9"
+gem "dotenv-rails", groups: [:development, :test]
 gem "elasticsearch-model"
 gem "elasticsearch-rails"
 gem "image_processing", "~> 1.2"

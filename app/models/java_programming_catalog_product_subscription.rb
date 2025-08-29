@@ -1,0 +1,2 @@
+class JavaProgrammingCatalogProductSubscription < CatalogProductSubscription
+end
