@@ -16,9 +16,12 @@
           <%= @product.description %>
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-          <%= link_to "Buy Now", new_user_session_path, 
-              class: "inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium text-base transition shadow-md hover:shadow-lg" %>
-          <% if user_signed_in? &&  @product.product_creator == current_user %>
+          <% if user_signed_in? && @product.product_creator != current_user %>
+            <%= link_to "Buy Now - $#{@product.cost}", new_user_session_path,
+                class: "inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium text-base transition shadow-md hover:shadow-lg" %>
+          <% end %>
+
+          <% if user_signed_in? && @product.product_creator == current_user %>
             <%= link_to "Edit Product", edit_product_path(@product),
                 class: "inline-block bg-white hover:bg-gray-50 text-gray-800 border border-gray-300 px-4 py-3 rounded-lg font-medium text-sm transition" %>
           <% end %>
