@@ -1,0 +1,2 @@
+class PythonProgramingCatalogProductSubscription < CatalogProductSubscription
+end
