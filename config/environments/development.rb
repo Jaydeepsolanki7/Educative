@@ -56,6 +56,8 @@ Rails.application.configure do
   config.active_record.migration_error = :page_load
 
   # Highlight code that triggered database queries in logs.
+  Rails.application.routes.default_url_options[:host] = "http://localhost:3000"
+
   config.active_record.verbose_query_logs = true
 
   # Highlight code that enqueued background job in logs.
