@@ -10,5 +10,11 @@ Rails.application.routes.draw do
       get :search
     end
   end
+  resources :checkouts, only: [ :create  ] do
+    collection do
+      get :success
+      get :cancel
+    end
+  end
   resources :assessments
 end

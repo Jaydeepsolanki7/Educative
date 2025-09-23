@@ -16,10 +16,13 @@
           <%= @product.description %>
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-          <% if user_signed_in? && @product.product_creator != current_user %>
-            <%= link_to "Buy Now - $#{@product.cost}", new_user_session_path,
-                class: "inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium text-base transition shadow-md hover:shadow-lg" %>
-          <% end %>
+        <% if user_signed_in? || @product.product_creator != current_user %>
+          <%= button_to "Buy Now - $#{@product.cost}",
+              checkouts_path(product_id: @product.id),
+              method: :post,
+              data: { turbo: false },
+              class: "inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium text-base transition shadow-md hover:shadow-lg" %>
+        <% end %>
 
           <% if user_signed_in? && @product.product_creator == current_user %>
             <%= link_to "Edit Product", edit_product_path(@product),
