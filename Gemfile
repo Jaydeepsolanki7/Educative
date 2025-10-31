@@ -6,7 +6,7 @@ gem "devise", "~> 4.9"
 gem "dotenv-rails", groups: [:development, :test]
 gem "elasticsearch-model"
 gem "elasticsearch-rails"
-gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 1.14"
 gem "jbuilder"
 gem "jsbundling-rails"
 gem "puma", ">= 5.0"
